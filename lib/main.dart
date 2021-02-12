@@ -62,6 +62,12 @@ class _HomeState extends State<Home> {
         title: Text('رابطه'),
         centerTitle: true,
         elevation: 0.0,
+        leading: _currentIndex == 0
+            ? IconButton(
+                icon: const Icon(Icons.add_circle_outline),
+                onPressed: () {},
+              )
+            : null,
       ),
       body: PageView(
         controller: _pageController,
@@ -90,10 +96,12 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.edit_outlined),
-        onPressed: () {},
-      ),
+      floatingActionButton: _currentIndex == 1
+          ? FloatingActionButton(
+              child: Icon(Icons.edit_outlined),
+              onPressed: () {},
+            )
+          : null,
     );
   }
 }

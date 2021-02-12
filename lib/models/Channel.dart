@@ -14,6 +14,6 @@ class Channel {
     this.members,
     @required this.private,
     this.icon,
-    this.messageCount,
+    this.messageCount = 0,
   });
 }
