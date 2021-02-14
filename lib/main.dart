@@ -1,14 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
-import './screens/Screens.dart';
+import 'package:provider/provider.dart';
+import './view_models/MessagesViewModel.dart';
+import './view_models/AuthViewModel.dart';
+import './view_models/ChannelsViewModel.dart';
+import './views/Screens.dart';
 
-void main() {
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
-  runApp(Raabita());
+  await Firebase.initializeApp();
+  runApp(MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+          value: AuthServices(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ChannelsViewModel(),
+        ),
+        ChangeNotifierProvider.value(
+          value: MessagesViewModel(),
+        ),
+        // ChangeNotifierProvider.value(
+        //   value: PostsProvider(),
+        // ),
+      ],
+      child: Raabita(),
+    );
+  }
 }
 
 class Raabita extends StatelessWidget {
@@ -43,7 +72,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   PageController _pageController = PageController();
-  List<Widget> _screens = [Channels(), Messages(), Settings()];
+  List<Widget> _screens = [
+    Channels(),
+    Messages(),
+    UserSettings(),
+  ];
 
   void _onPageChange(int index) {
     setState(() {
@@ -53,6 +86,11 @@ class _HomeState extends State<Home> {
 
   void _onNavbarItemTapped(int currentIndex) {
     _pageController.jumpToPage(currentIndex);
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

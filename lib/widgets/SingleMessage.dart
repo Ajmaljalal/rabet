@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:raabita/models/Models.dart';
+import 'package:raabita/data_models/Models.dart';
 
 class SingleMessage extends StatefulWidget {
   final Message message;
@@ -134,7 +134,7 @@ class _SingleMessageState extends State<SingleMessage> {
     return Row(
       children: [
         Text(
-          'Comment: 23',
+          'Reply: 23',
           style: TextStyle(
             color: Colors.blue[300],
             fontSize: 12.0,
@@ -144,7 +144,7 @@ class _SingleMessageState extends State<SingleMessage> {
           width: 10.0,
         ),
         Text(
-          'Reply: 43',
+          'Like: 43',
           style: TextStyle(
             color: Colors.blue[300],
             fontSize: 12.0,

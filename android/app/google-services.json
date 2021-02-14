@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "154161137752",
+    "firebase_url": "https://jamiat-eslah.firebaseio.com",
+    "project_id": "jamiat-eslah",
+    "storage_bucket": "jamiat-eslah.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154161137752:android:1dfd79562413185f64622d",
+        "android_client_info": {
+          "package_name": "com.eslah.raabita"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154161137752-plcjgeb6750gl9jli71dra0i81h4eql7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsskhBCMeY_-frlzS8-ykgCZMSKJ8CjiI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154161137752-plcjgeb6750gl9jli71dra0i81h4eql7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
