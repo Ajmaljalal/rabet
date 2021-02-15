@@ -1,26 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:raabita/view_models/ChannelsViewModel.dart';
+import 'package:raabita/widgets/CreationAwareWidget.dart';
 import '../widgets/ChatScreenInputField.dart';
 import '../views/Screens.dart';
 import '../data_models/Models.dart';
-
-List<Message> messages = [
-  Message(
-      id: 'etrt54654654654666',
-      text:
-          'Public Last one is a very long test so we an understand the design of this thing in full.'),
-  Message(
-      id: 'wer435345dsffsdfrt',
-      text:
-          'Public Last one is a very long test so we an understand the design of this thing in full.'),
-  Message(
-      id: 'erw3ykuiolop980-09',
-      text:
-          'private not enter Last one is a very long test so we an understand the design of this thing in full.'),
-  Message(
-      id: 'werewrftrytyu78i7o',
-      text:
-          'Public Last one is a very long test so we an understand the design of this thing in full.'),
-];
 
 class ChannelChatScreen extends StatefulWidget {
   final Channel channel;
@@ -32,23 +16,17 @@ class ChannelChatScreen extends StatefulWidget {
 
 class _ChannelChatScreenState extends State<ChannelChatScreen>
     with AutomaticKeepAliveClientMixin {
-  String messageId;
-
   ScrollController _scrollController;
   TextEditingController _messageInputFieldController;
   FocusNode _messageInputFieldFocusNode = FocusNode();
 
-  handleTextInputFieldChange(value) {
-    setState(() {
-      // _text = value;
-    });
-  }
-
   @override
   void initState() {
-    super.initState();
+    Provider.of<ChannelsViewModel>(context, listen: false)
+        .listenToChannelMessages(channelId: widget.channel.id);
     _scrollController = ScrollController();
     _messageInputFieldController = TextEditingController();
+    super.initState();
   }
 
   @override
@@ -85,7 +63,7 @@ class _ChannelChatScreenState extends State<ChannelChatScreen>
         height: MediaQuery.of(context).size.height * 1,
         child: Column(
           children: [
-            buildMessagesList(),
+            buildMessagesList(context),
             ChatScreenInputField(
               channelId: widget.channel.id,
               focusNode: _messageInputFieldFocusNode,
@@ -98,7 +76,9 @@ class _ChannelChatScreenState extends State<ChannelChatScreen>
     );
   }
 
-  Widget buildMessagesList() {
+  Widget buildMessagesList(context) {
+    final List<Message> _messages =
+        Provider.of<ChannelsViewModel>(context).messages;
     return Expanded(
       child: GestureDetector(
         onTap: () => closeInputField(),
@@ -106,12 +86,27 @@ class _ChannelChatScreenState extends State<ChannelChatScreen>
           controller: _scrollController,
           reverse: true,
           shrinkWrap: true,
-          itemCount: messages.length,
+          itemCount: _messages?.length != null ? _messages.length : 1,
           itemBuilder: (context, index) {
-            final message = messages[index];
-            return SingleMessage(
-              message: message,
-              channel: widget.channel,
+            return CreationAwareWidget(
+              itemCreated: () {
+                if (index > 1 && index % 20 == 0) {
+                  Provider.of<ChannelsViewModel>(context)
+                      .requestMoreData(channelId: widget.channel.id);
+                }
+              },
+              child: _messages?.length != null
+                  ? SingleMessage(
+                      message: _messages[index],
+                      channel: widget.channel,
+                    )
+                  : Center(
+                      child: SizedBox(
+                        width: 25.0,
+                        height: 25.0,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
             );
           },
         ),

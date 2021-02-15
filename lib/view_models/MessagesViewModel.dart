@@ -1,23 +1,22 @@
 import 'package:flutter/foundation.dart';
-import 'package:raabita/services/ChannelMessagesFirebaseService.dart';
+import 'package:raabita/services/ChannelsFirebaseService.dart';
 import '../data_models/Models.dart';
 
 class MessagesViewModel extends ChangeNotifier {
-  final ChannelMessagesFirebaseService _messagesService =
-      ChannelMessagesFirebaseService();
+  final ChannelsFirebaseService _messagesService = ChannelsFirebaseService();
 
   List<Message> _messages;
   List<Message> get messages => _messages;
 
-  void listenToPosts() {
-    _messagesService.listenToPostsRealTime().listen((messagesData) {
-      List<Message> updatedMessages = messagesData;
-      if (updatedMessages != null && updatedMessages.length > 0) {
-        _messages = updatedMessages;
-        notifyListeners();
-      }
-    });
-  }
+  // void listenToPosts() {
+  //   _messagesService.listenToPostsRealTime().listen((messagesData) {
+  //     List<Message> updatedMessages = messagesData;
+  //     if (updatedMessages != null && updatedMessages.length > 0) {
+  //       _messages = updatedMessages;
+  //       notifyListeners();
+  //     }
+  //   });
+  // }
 
   // Future deletePost(int index) async {
   //   var dialogResponse = await _dialogService.showConfirmationDialog(
@@ -46,5 +45,5 @@ class MessagesViewModel extends ChangeNotifier {
   //       arguments: _posts[index]);
   // }
 
-  void requestMoreData() => _messagesService.requestMessages();
+  // void requestMoreData() => _messagesService.requestMessages();
 }

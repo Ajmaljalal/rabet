@@ -1,4 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:raabita/data_models/Models.dart';
+import 'package:raabita/view_models/ChannelsViewModel.dart';
 
 class ChatScreenInputField extends StatefulWidget {
   final String channelId;
@@ -18,10 +23,18 @@ class ChatScreenInputField extends StatefulWidget {
 }
 
 class _ChatScreenInputFieldState extends State<ChatScreenInputField> {
-  handleTextInputFieldChange(value) {
-    setState(() {
-      // _text = value;
-    });
+  onSubmit(context) {
+    final textFieldController = widget.textFieldController;
+    if (textFieldController.text.isNotEmpty) {
+      final Message _message = Message(
+        channelId: widget.channelId,
+        text: textFieldController.text,
+        date: DateTime.now().toString(),
+      );
+      Provider.of<ChannelsViewModel>(context, listen: false)
+          .createChannelMessage(message: _message);
+      textFieldController.clear();
+    }
   }
 
   void setScrollPosition() {
@@ -45,31 +58,38 @@ class _ChatScreenInputFieldState extends State<ChatScreenInputField> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxHeight: 80.0,
+      constraints: BoxConstraints(
+        maxHeight: widget.focusNode.hasFocus == true ? 80.0 : 40.0,
       ),
       child: Container(
         padding: const EdgeInsets.all(4.0),
-        color: Colors.blue[50],
+        color: Colors.grey[200],
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             InkWell(
               onTap: () => setScrollPosition(),
-              child: buildSendButton(),
+              child: buildSendButton(context),
             ),
             buildInputField(),
+            SizedBox(width: 5.0),
+            InkWell(
+              onTap: () {},
+              child: Icon(Icons.add),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget buildSendButton() {
+  Widget buildSendButton(context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onSubmit(context);
+        },
         child: const Icon(
           Icons.send_rounded,
           textDirection: TextDirection.ltr,
@@ -82,13 +102,11 @@ class _ChatScreenInputFieldState extends State<ChatScreenInputField> {
 
   Expanded buildInputField() {
     return Expanded(
+      flex: 2,
       child: TextFormField(
         controller: widget.textFieldController,
         maxLines: null,
         focusNode: widget.focusNode,
-        onChanged: (value) {
-          handleTextInputFieldChange(value);
-        },
         decoration: InputDecoration(
           fillColor: Colors.white,
           border: OutlineInputBorder(

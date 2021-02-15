@@ -4,7 +4,7 @@ import './User.dart';
 class Message {
   String id;
   String channelId;
-  DateTime date = DateTime.now();
+  String date = DateTime.now().toString();
   String text;
   User owner;
   int repliesCount;
@@ -15,7 +15,7 @@ class Message {
   bool isNew;
 
   Message({
-    @required this.id,
+    this.id,
     this.channelId,
     @required this.text,
     this.owner,
@@ -33,7 +33,7 @@ class Message {
         channelId: json["channelId"],
         text: json["text"],
         owner: json["owner"],
-        date: json["date"],
+        date: json["date"].toString(),
         repliesCount: json["repliesCount"],
         likesCount: json["likesCount"],
         forwarded: json["forwarded"],

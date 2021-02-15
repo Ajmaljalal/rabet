@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import './view_models/MessagesViewModel.dart';
 import './view_models/AuthViewModel.dart';
 import './view_models/ChannelsViewModel.dart';
 import './views/Screens.dart';
@@ -28,9 +27,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: ChannelsViewModel(),
         ),
-        ChangeNotifierProvider.value(
-          value: MessagesViewModel(),
-        ),
+        // ChangeNotifierProvider.value(
+        //   value: MessagesViewModel(),
+        // ),
         // ChangeNotifierProvider.value(
         //   value: PostsProvider(),
         // ),

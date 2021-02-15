@@ -41,7 +41,7 @@ class _SingleMessageState extends State<SingleMessage> {
           ),
           child: Center(
             child: Text(
-              message.text[0].toUpperCase(),
+              message?.text[0].toUpperCase(),
               style: const TextStyle(
                 color: Colors.white,
               ),

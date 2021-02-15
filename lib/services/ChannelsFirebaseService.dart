@@ -1,19 +1,17 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:raabita/data_models/Models.dart';
 
-class ChannelMessagesFirebaseService {
+class ChannelsFirebaseService {
   final CollectionReference _channelMessagesCollectionReference =
       FirebaseFirestore.instance.collection('channel-messages');
 
   final StreamController<List<Message>> _channelMessagesController =
       StreamController<List<Message>>.broadcast();
 
-  //  A list that will keep the paged results
   List<List<Message>> _allPagedResults = List<List<Message>>();
-
-  static const int messagesLimit = 20;
-
+  static const int messagesLimit = 21;
   DocumentSnapshot _lastDocument;
   bool _hasMoreMessages = true;
 
@@ -77,18 +75,26 @@ class ChannelMessagesFirebaseService {
   //   }
   // }
 
-  Stream listenToPostsRealTime() {
+  Future<void> createChannelMessage({Message message}) async {
+    _channelMessagesCollectionReference
+        .doc(message.channelId)
+        .collection('messages')
+        .add(message.toJson());
+  }
+
+  Stream listenToMessagesRealTime({@required String channelId}) {
     // Register the handler for when the posts data changes
-    _requestMessages();
+    _requestMessages(channelId: channelId);
     return _channelMessagesController.stream;
   }
 
-  // #1: Move the request posts into it's own function
-  void _requestMessages() {
+  void _requestMessages({@required String channelId}) {
     // #2: split the query from the actual subscription
     var pageMessagesQuery = _channelMessagesCollectionReference
+        .doc(channelId)
+        .collection('messages')
         .orderBy('date', descending: true)
-        // #3: Limit the amount of results
+        // #3: Limit the amount of results`
         .limit(messagesLimit);
 
     // #5: If we have a document start the query after it
@@ -156,5 +162,6 @@ class ChannelMessagesFirebaseService {
   //   }
   // }
 
-  void requestMessages() => _requestMessages();
+  void requestMessages({@required String channelId}) =>
+      _requestMessages(channelId: channelId);
 }

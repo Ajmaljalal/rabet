@@ -11,10 +11,10 @@ class Messages extends StatefulWidget {
 class _MessagesState extends State<Messages>
     with AutomaticKeepAliveClientMixin {
   @override
-  void initState() {
-    super.initState();
-    Provider.of<MessagesViewModel>(context, listen: false).listenToPosts();
-  }
+  // void initState() {
+  //   super.initState();
+  //   Provider.of<MessagesViewModel>(context, listen: false).listenToPosts();
+  // }
 
   @override
   Widget build(BuildContext context) {
