@@ -8,7 +8,6 @@ import './view_models/ChannelsViewModel.dart';
 import './views/Screens.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
@@ -27,12 +26,6 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: ChannelsViewModel(),
         ),
-        // ChangeNotifierProvider.value(
-        //   value: MessagesViewModel(),
-        // ),
-        // ChangeNotifierProvider.value(
-        //   value: PostsProvider(),
-        // ),
       ],
       child: Raabita(),
     );

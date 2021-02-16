@@ -28,7 +28,7 @@ class _ChatScreenInputFieldState extends State<ChatScreenInputField> {
     if (textFieldController.text.isNotEmpty) {
       final Message _message = Message(
         channelId: widget.channelId,
-        text: textFieldController.text,
+        text: textFieldController.text.toString().trim(),
         date: DateTime.now().toString(),
       );
       Provider.of<ChannelsViewModel>(context, listen: false)
@@ -78,10 +78,7 @@ class _ChatScreenInputFieldState extends State<ChatScreenInputField> {
                 ),
                 buildInputField(),
                 SizedBox(width: 5.0),
-                InkWell(
-                  onTap: () {},
-                  child: Icon(Icons.add),
-                ),
+                buildAttachmentsButton(),
               ],
             ),
           ),
@@ -133,6 +130,13 @@ class _ChatScreenInputFieldState extends State<ChatScreenInputField> {
           height: 0.95,
         ),
       ),
+    );
+  }
+
+  Widget buildAttachmentsButton() {
+    return InkWell(
+      onTap: () {},
+      child: Icon(Icons.add),
     );
   }
 }

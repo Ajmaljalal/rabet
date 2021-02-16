@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:raabita/data_models/Models.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:raabita/widgets/ProfileAvatar.dart';
 
 class SingleMessage extends StatefulWidget {
   final Message message;
@@ -32,22 +34,7 @@ class _SingleMessageState extends State<SingleMessage> {
   Widget buildMessageHead(message) {
     return Row(
       children: [
-        Container(
-          height: 30.0,
-          width: 30.0,
-          decoration: BoxDecoration(
-            color: Colors.blueGrey,
-            borderRadius: BorderRadius.all(Radius.elliptical(5, 5)),
-          ),
-          child: Center(
-            child: Text(
-              message?.text[0].toUpperCase(),
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
+        ProfileAvatar(message: message),
         const SizedBox(width: 8.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +45,6 @@ class _SingleMessageState extends State<SingleMessage> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            // const SizedBox(height: 10.0),
             Text(
               '05:00',
               style: const TextStyle(
@@ -78,82 +64,64 @@ class _SingleMessageState extends State<SingleMessage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${message.text}'),
-          buildMessageFooter(message),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0.0, 0.0, 30.0, 0.0),
+            child: Text('${message.text}'),
+          ),
+          SizedBox(
+            height: 3.0,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 27.0),
+            child: buildActionIcons(message),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildMessageFooter(message) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        buildActionIcons(),
-        buildLikesAndReplies(message),
-      ],
-    );
-  }
-
-  Widget buildActionIcons() {
+  Widget buildActionIcons(message) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const SizedBox(width: 5.0),
-        InkWell(
+        buildActionButton(
           onTap: () {},
-          child: Icon(
-            Icons.reply_rounded,
-            size: 22.0,
-            color: Colors.blue[200],
-          ),
+          icon: LineIcons.reply,
+          count: message.repliesCount,
         ),
         const SizedBox(width: 10.0),
-        InkWell(
+        buildActionButton(
           onTap: () {},
-          child: Icon(
-            Icons.thumb_up_rounded,
-            size: 18.0,
-            color: Colors.blue[200],
-          ),
-        ),
-        const SizedBox(width: 10.0),
-        InkWell(
-          onTap: () {},
-          child: Icon(
-            Icons.forward_rounded,
-            size: 22.0,
-            color: Colors.blue[200],
-          ),
+          icon: LineIcons.thumbsUp,
+          count: message.likesCount,
         ),
       ],
     );
   }
 
-  Widget buildLikesAndReplies(message) {
-    return Row(
-      children: [
-        Text(
-          'Reply: 23',
-          style: TextStyle(
-            color: Colors.blue[300],
-            fontSize: 12.0,
+  Widget buildActionButton({
+    IconData icon,
+    Function onTap,
+    int count,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 20.0,
+            color: Colors.blue[200],
           ),
-        ),
-        const SizedBox(
-          width: 10.0,
-        ),
-        Text(
-          'Like: 43',
-          style: TextStyle(
-            color: Colors.blue[300],
-            fontSize: 12.0,
+          SizedBox(width: 3.0),
+          Text(
+            count != null ? count.toString() : '',
+            style: TextStyle(fontSize: 10.0),
           ),
-        ),
-        const SizedBox(
-          width: 10.0,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -18,13 +18,14 @@ class _ChannelsState extends State<Channels>
     super.build(context);
     return Scaffold(
         body: StreamBuilder(
-            stream: Provider.of<ChannelsViewModel>(context).fetchAllChannels(),
+            stream: Provider.of<ChannelsViewModel>(context, listen: false)
+                .fetchAllChannels(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
-                return Text('loading');
+                return const Text('loading');
               }
               if (snapshot.hasError) {
-                return Text('error loading data');
+                return const Text('error loading data');
               }
               List<DocumentSnapshot> tempList = snapshot.data.docs;
               List<Channel> _channels = List();
@@ -58,13 +59,13 @@ class _ChannelsState extends State<Channels>
                       },
                       title: Text(
                         currentChannel.name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.blueGrey,
                         ),
                       ),
                       subtitle: Text(
                         '${currentChannel.messageCount} messages',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 12.0,
                         ),
