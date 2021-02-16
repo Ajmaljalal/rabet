@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:raabita/widgets/CreationAwareWidget.dart';
-import '../view_models/MessagesViewModel.dart';
+// import '../view_models/MessagesViewModel.dart';
 
 class Messages extends StatefulWidget {
   @override
@@ -24,8 +24,8 @@ class _MessagesState extends State<Messages>
       body: ListView.builder(
           itemCount: 21,
           itemBuilder: (context, int index) {
-            final _messages =
-                Provider.of<MessagesViewModel>(context, listen: false).messages;
+            // final _messages =
+            // Provider.of<MessagesViewModel>(context, listen: false).messages;
             return CreationAwareWidget(
               itemCreated: () {
                 if (index > 0 && index % 20 == 0) {

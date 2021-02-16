@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:raabita/services/ChannelsFirebaseService.dart';
 import '../data_models/Models.dart';
 
 class MessagesViewModel extends ChangeNotifier {
-  final ChannelsFirebaseService _messagesService = ChannelsFirebaseService();
+  // final ChannelsFirebaseService _messagesService = ChannelsFirebaseService();
 
   List<Message> _messages;
   List<Message> get messages => _messages;

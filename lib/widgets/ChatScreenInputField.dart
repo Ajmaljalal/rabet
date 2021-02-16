@@ -61,23 +61,30 @@ class _ChatScreenInputFieldState extends State<ChatScreenInputField> {
       constraints: BoxConstraints(
         maxHeight: widget.focusNode.hasFocus == true ? 80.0 : 40.0,
       ),
-      child: Container(
-        padding: const EdgeInsets.all(4.0),
-        color: Colors.grey[200],
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            InkWell(
-              onTap: () => setScrollPosition(),
-              child: buildSendButton(context),
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 5.0,
+            sigmaY: 5.0,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(4.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                InkWell(
+                  onTap: () => setScrollPosition(),
+                  child: buildSendButton(context),
+                ),
+                buildInputField(),
+                SizedBox(width: 5.0),
+                InkWell(
+                  onTap: () {},
+                  child: Icon(Icons.add),
+                ),
+              ],
             ),
-            buildInputField(),
-            SizedBox(width: 5.0),
-            InkWell(
-              onTap: () {},
-              child: Icon(Icons.add),
-            ),
-          ],
+          ),
         ),
       ),
     );
